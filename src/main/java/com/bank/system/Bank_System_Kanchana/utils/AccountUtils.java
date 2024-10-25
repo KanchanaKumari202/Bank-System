@@ -5,6 +5,11 @@ import java.util.Random;
 
 public class AccountUtils {
 
+    public static final String ACCOUNT_EXISTS_CODE = "001";
+    public static final String ACCOUNT_EXISTS_MESSAGE = "This user already has an account!";
+    public static final String ACCOUNT_CREATED_CODE = "002";
+    public static final String ACCOUNT_CREATED_MESSAGE = "Account created successfully!";
+
     public static String generateAccountNumber(){
         /**
          * 2024 + random 6 digit number

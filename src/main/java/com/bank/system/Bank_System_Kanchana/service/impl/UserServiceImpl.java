@@ -2,6 +2,7 @@ package com.bank.system.Bank_System_Kanchana.service.impl;
 
 import com.bank.system.Bank_System_Kanchana.dto.AccountInfo;
 import com.bank.system.Bank_System_Kanchana.dto.BankResponse;
+import com.bank.system.Bank_System_Kanchana.dto.EmailDetails;
 import com.bank.system.Bank_System_Kanchana.dto.UserRequest;
 import com.bank.system.Bank_System_Kanchana.entity.User;
 import com.bank.system.Bank_System_Kanchana.repository.UserRepository;
@@ -16,6 +17,9 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    EmailService emailService;
 
     @Override
     public BankResponse createAccount(UserRequest userRequest) {
@@ -46,6 +50,15 @@ public class UserServiceImpl implements UserService{
                 .build();
 
         User savedUser = userRepository.save(newUser);
+
+        //send email Alert
+        EmailDetails emailDetails = EmailDetails.builder()
+                .recipient(savedUser.getEmail())
+                .subject("ACCOUNT CREATION")
+                .msgBody("Congratulations! Your account has been successfully created.\nYour account details: \n" +
+                        "Account name: " + savedUser.getFirstName() + " " + savedUser.getLastName() + " " + savedUser.getOtherName() + "\nAccount Number: " + savedUser.getAccountNumber())
+                .build();
+        emailService.sendEmailAlert(emailDetails);
 
         return BankResponse.builder()
                 .responseCode(AccountUtils.ACCOUNT_CREATED_CODE)

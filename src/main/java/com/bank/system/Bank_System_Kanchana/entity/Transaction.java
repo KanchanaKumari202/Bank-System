@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -22,4 +23,6 @@ public class Transaction {
     private BigDecimal amount;
     private String accountNumber;
     private String status;
+    private LocalDate createdAt;
+    private LocalDate modifiedAt;
 }
